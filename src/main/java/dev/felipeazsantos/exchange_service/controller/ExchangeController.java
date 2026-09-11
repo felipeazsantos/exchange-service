@@ -1,7 +1,9 @@
 package dev.felipeazsantos.exchange_service.controller;
 
 import dev.felipeazsantos.exchange_service.environment.InstanceInformationService;
+import dev.felipeazsantos.exchange_service.exceptions.UnsupportedCurrencyException;
 import dev.felipeazsantos.exchange_service.model.Exchange;
+import dev.felipeazsantos.exchange_service.repository.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,20 @@ public class ExchangeController {
     @Autowired
     private InstanceInformationService instanceInformationService;
 
+    @Autowired
+    private ExchangeRepository exchangeRepository;
+
     // http://localhost:8000/exchange-service/5/BRL/USD
     @GetMapping(value = "/{amount}/{from}/{to}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Exchange> getExchange(@PathVariable("amount") BigDecimal amount,
                                                 @PathVariable("from") String from,
                                                 @PathVariable("to") String to) {
-        var exchange = new Exchange(1L, from, to, BigDecimal.ONE, BigDecimal.TEN, instanceInformationService.retrieveServerPort());
+        Exchange exchange = exchangeRepository.findByFromAndTo(from, to);
+        if (exchange == null) throw new UnsupportedCurrencyException("Unsupported Currency!");
+
+        BigDecimal conversionFactor = exchange.getConversionFactor();
+        BigDecimal convertedValue = exchange.getConvertedValue();
+
         return ResponseEntity.ok(exchange);
     }
 }
