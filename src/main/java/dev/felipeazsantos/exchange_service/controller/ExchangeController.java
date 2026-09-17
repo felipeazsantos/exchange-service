@@ -34,7 +34,10 @@ public class ExchangeController {
         if (exchange == null) throw new UnsupportedCurrencyException("Unsupported Currency!");
 
         BigDecimal conversionFactor = exchange.getConversionFactor();
-        BigDecimal convertedValue = exchange.getConvertedValue();
+        BigDecimal convertedValue = conversionFactor.multiply(amount);
+
+        exchange.setConvertedValue(convertedValue);
+        exchange.setEnvironment("PORT " + instanceInformationService.retrieveServerPort());
 
         return ResponseEntity.ok(exchange);
     }

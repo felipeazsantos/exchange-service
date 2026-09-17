@@ -15,7 +15,7 @@ public class InstanceInformationService  implements ApplicationListener<WebServe
     }
 
     public String retrieveServerPort() {
-        return "PORT " + port;
+        return port;
     }
 
 }
