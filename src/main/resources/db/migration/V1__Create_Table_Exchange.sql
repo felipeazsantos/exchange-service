@@ -1,4 +1,4 @@
-CREATE TABLE `exchange` (
+CREATE TABLE `exchangeDTO` (
   `id` INT(10) AUTO_INCREMENT PRIMARY KEY,
   `from_currency` CHAR(3) NOT NULL,
   `to_currency` CHAR(3) NOT NULL,
