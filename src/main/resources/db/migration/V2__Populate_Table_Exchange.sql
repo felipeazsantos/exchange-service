@@ -1,4 +1,4 @@
-INSERT INTO `exchangeDTO` (`from_currency`, `to_currency`, `conversion_factor`) VALUES
+INSERT INTO `exchange` (`from_currency`, `to_currency`, `conversion_factor`) VALUES
                       ('USD', 'BRL', 5.57),
                       ('USD', 'EUR', 0.87),
                       ('USD', 'GBP', 0.73),
